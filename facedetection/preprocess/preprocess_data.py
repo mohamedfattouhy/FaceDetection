@@ -1,4 +1,4 @@
-import os
+# MANAGE ENVIRONMENT
 import json
 import tensorflow as tf
 
