@@ -13,7 +13,7 @@ This project is based on the face detection project available [here](https://git
 
 The main aim of this project is to improve my skills in building machine learning models with the [Tensorflow](https://www.tensorflow.org/?hl=fr) and [Keras](https://www.tensorflow.org/?hl=fr) libraries.
 
-In addition, a Flask application is available to facilitate the use of the face detection model once it has been trained.
+In addition, a **Flask** application is available to facilitate the use of the face detection model once it has been trained.
 
 
 ## Model 
@@ -28,8 +28,8 @@ The model consists of two main components:
 <br>
 
 <div align="center">
-<img src="static/VGG16.png" alt="VGG16 Model" width="500px" height="260px">
-<h3>VGG16 Model Architecture</h3>
+<img src="static/VGG16.png" alt="VGG16 Model" width="500px" height="260px" style="margin-bottom: 10px;">
+<h3 style="margin-top: 0;"> VGG16 Model Architecture</h3>
 </div>
 
 <br>
