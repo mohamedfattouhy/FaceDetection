@@ -33,8 +33,8 @@ class FaceDetection(Model):
 
         self.opt.apply_gradients(zip(grad, self.model.trainable_variables))
 
-        return {"total_loss": total_loss, "class_loss": batch_class_loss,
-                "regress_loss": batch_localization_loss}
+        return {"total_loss": total_loss, "classification_loss": batch_class_loss,
+                "regression_loss": batch_localization_loss}
 
     def test_step(self, batch):
 
@@ -47,5 +47,5 @@ class FaceDetection(Model):
                                                          coords)
         total_loss = batch_localization_loss + 0.5*batch_class_loss
 
-        return {"total_loss": total_loss, "class_loss": batch_class_loss,
-                "regress_loss": batch_localization_loss}
+        return {"total_loss": total_loss, "classification_loss": batch_class_loss,
+                "regression_loss": batch_localization_loss}
