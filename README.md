@@ -33,6 +33,45 @@ The model consists of two main components:
 
 <br>
 
+## Installation
+
+Clone the project
+```bash
+git clone https://github.com/mohamedfattouhy/FaceDetection.git
+```
+
+Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+Create a virtual environment
+```bash
+python -m venv face_detection_venv
+```
+
+Activate the virtual environment
+```bash
+source face_detection_venv/bin/activate # Linux
+.\face_detection_venv\Scripts\activate # Windows 
+```
+
+## Usage
+
+Move to directory
+```bash
+cd FaceDetection
+````
+
+Run the configuration file to collect data and train the face detection model
+```bash
+python configuration.py
+````
+
+Run the flask app to try in the trained model with your webcam
+```bash
+flask run
+````
 
 
 
