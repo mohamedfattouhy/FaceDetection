@@ -109,7 +109,7 @@ for idx in range(0, 2):
 plt.show()
 
 # Define losses and optimizers
-batches_per_epoch = len(train.take(20))
+batches_per_epoch = len(train)
 lr_decay = (1./0.75 - 1)/batches_per_epoch
 opt = tf.keras.optimizers.legacy.Adam(learning_rate=0.0001, decay=lr_decay)
 classloss = tf.keras.losses.BinaryCrossentropy()  # Classification
@@ -123,9 +123,7 @@ model = FaceDetection(facetracker)
 model.compile(opt, classloss, regressloss)
 
 # Fit the model
-hist = model.fit(train.take(20), epochs=5, validation_data=validation)
-keys = hist.history.keys()
-print(keys)
+hist = model.fit(train, epochs=10, validation_data=validation)
 
 # Plot Performances
 fig, ax = plt.subplots(ncols=3, figsize=(20, 5))
