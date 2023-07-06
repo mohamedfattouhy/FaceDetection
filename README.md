@@ -28,8 +28,8 @@ The model consists of two main components:
 <br>
 
 <div align="center">
-<img src="static/VGG16.png" alt="VGG16 Model" width="500px" height="260px" style="margin-bottom: 10px;">
-<h3 style="margin-top: 0;"> VGG16 Model Architecture</h3>
+<img src="static/VGG16.png" alt="VGG16 Model" width="500px" height="260px" style="margin-bottom: -8px;">
+<h3> VGG16 Model Architecture</h3>
 </div>
 
 <br>
