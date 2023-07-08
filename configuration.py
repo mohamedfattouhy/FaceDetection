@@ -28,18 +28,19 @@ create_folder(path.AUGMENTED_TRAIN_DIR_PATH, ['image', 'labelled_images'])
 create_folder(path.AUGMENTED_TEST_DIR_PATH, ['image', 'labelled_images'])
 create_folder(path.AUGMENTED_VALIDATION_DIR_PATH, ['image', 'labelled_images'])
 
-NUMBER_IMAGES = 10
-NUMBER_AUG_DATA = 30
+NUMBER_IMAGES = 10  # Number of images to capture with webcam
+NUMBER_AUG_DATA = 30  # Number of new images to create per original image
 
 # Collect data and put them into data folder
 collect_data(path.TRAIN_IMAGES_PATH, NUMBER_IMAGES)
 collect_data(path.TEST_IMAGES_PATH, NUMBER_IMAGES)
 collect_data(path.VALIDATION_IMAGES_PATH, NUMBER_IMAGES)
 
-# Augment data images and put them into augmented_data folder
+# Create new images and put them into augmented_data folder
 directories = ['train', 'test', 'validation']
 augment_data(NUMBER_AUG_DATA, directories)
 
+# Select an image from train directory
 files = os.listdir(path.TRAIN_IMAGES_PATH)
 img_sample_path = os.path.join(path.TRAIN_IMAGES_PATH, files[0])
 
@@ -52,7 +53,7 @@ json_path_label = os.path.join(path.TRAIN_DIR_PATH,
 display_rectangle_detection(img_sample_path, json_path_label)
 
 
-# Load augmented images to Tensorflow dataset
+# Path to augmented images
 train_images_path = os.path.join(path.AUGMENTED_TRAIN_DIR_PATH,
                                  'images', '*.jpg')
 test_images_path = os.path.join(path.AUGMENTED_TEST_DIR_PATH,
@@ -60,6 +61,7 @@ test_images_path = os.path.join(path.AUGMENTED_TEST_DIR_PATH,
 validation_images_path = os.path.join(path.AUGMENTED_VALIDATION_DIR_PATH,
                                       'images', '*.jpg')
 
+# Pre-preprocess augmented images and get a Tensorflow dataset
 train_images = decode_and_preprocess(train_images_path)
 test_images = decode_and_preprocess(test_images_path)
 validation_images = decode_and_preprocess(validation_images_path)
@@ -69,7 +71,7 @@ test_images = decode_and_preprocess(train_images_path)
 validation_images = decode_and_preprocess(train_images_path)
 
 
-# Load labels to Tensorflow dataset
+# Path to the label images (json files)
 train_labels_path = os.path.join(path.AUGMENTED_TRAIN_DIR_PATH,
                                  'labelled_images', '*.json')
 test_labels_path = os.path.join(path.AUGMENTED_TEST_DIR_PATH,
@@ -77,11 +79,12 @@ test_labels_path = os.path.join(path.AUGMENTED_TEST_DIR_PATH,
 validation_labels_path = os.path.join(path.AUGMENTED_VALIDATION_DIR_PATH,
                                       'labelled_images', '*.json')
 
+# Load the label and get a Tensorflow dataset
 train_labels = label_dataset(train_labels_path)
 test_labels = label_dataset(test_labels_path)
 validation_labels = label_dataset(validation_labels_path)
 
-# Load pre-processed data
+# Obtain a dataset with images and associated labels
 train = load_preprocessed_data(train_images, train_labels, 1024, 8, 4)
 test = load_preprocessed_data(test_images, test_labels, 512, 8, 4)
 validation = load_preprocessed_data(validation_images,
@@ -108,23 +111,27 @@ for idx in range(0, 2):
 
 plt.show()
 
-# Define losses and optimizers
-batches_per_epoch = len(train)
-lr_decay = (1./0.75 - 1)/batches_per_epoch
-opt = tf.keras.optimizers.legacy.Adam(learning_rate=0.0001, decay=lr_decay)
-classloss = tf.keras.losses.BinaryCrossentropy()  # Classification
-regressloss = localization_loss  # Regression (coords)
 
-# Create a model
+# Define losses and optimizers for training
+batches_per_epoch = len(train)  # Number ob batch
+lr_decay = (1./0.75 - 1)/batches_per_epoch  # Define a decreasing learning rate
+
+# Use the Adam optimizer
+opt = tf.keras.optimizers.legacy.Adam(learning_rate=0.0001, decay=lr_decay)
+classloss = tf.keras.losses.BinaryCrossentropy()  # Classification loss (whether a face is present or not)
+regressloss = localization_loss  # Regression loss (for coords)
+
+# Create a model (custom neural network model from VGG16)
 facetracker = build_model()
-model = FaceDetection(facetracker)
+model = FaceDetection(facetracker)  # Custom model class for train and test
 
 # Compile the model
 model.compile(opt, classloss, regressloss)
 
 # Fit the model
-hist = model.fit(train, epochs=1, validation_data=validation)
+hist = model.fit(train, epochs=50, validation_data=validation)
 
+# Save the model
 save_model_path = os.path.join('facedetection', 'trained_model',
                                'facetracker.h5')
 facetracker.save(save_model_path)
@@ -155,7 +162,7 @@ ax[2].legend()
 
 plt.show()
 
-# Make Predictions on Test Set
+# Make predictions on test set
 test_data = test.as_numpy_iterator()
 test_sample = test_data.next()
 yhat = facetracker.predict(test_sample[0])
