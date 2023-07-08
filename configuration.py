@@ -123,7 +123,12 @@ model = FaceDetection(facetracker)
 model.compile(opt, classloss, regressloss)
 
 # Fit the model
-hist = model.fit(train, epochs=10, validation_data=validation)
+hist = model.fit(train, epochs=1, validation_data=validation)
+
+save_model_path = os.path.join('facedetection', 'trained_model',
+                               'facetracker.h5')
+facetracker.save(save_model_path)
+
 
 # Plot Performances
 fig, ax = plt.subplots(ncols=3, figsize=(20, 5))

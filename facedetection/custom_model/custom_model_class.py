@@ -3,20 +3,27 @@ import tensorflow as tf
 from keras.models import Model
 
 
-# Create custom model class derived from Model
+# Create custom model class which inherits from the Model (keras class).
+# This means that the "FaceDetection" class can use the attributes
+# and methods defined in the Model class, as well as defining
+# our own attributes and methods specific to face detection.
 class FaceDetection(Model):
+    """Create custom model class which inherits from the Model class (keras class)
+    for a face dectection model"""
 
-    def __init__(self, eyetracker):
-        super().__init__()
-        self.model = eyetracker
+    def __init__(self, facetracker) -> None:
+        super().__init__()  # call the constructor method of the Model class of keras
+        self.model = facetracker
 
-    def compile(self, opt, classloss, localizationloss):
-        super().compile()
+    def compile(self, opt, classloss, localizationloss) -> None:
+        super().compile()  # call the compile() method of the Model class of keras
         self.class_loss = classloss
         self.localization_loss = localizationloss
         self.opt = opt
 
-    def train_step(self, batch):
+    def train_step(self, batch) -> dict:
+        """Train the face detection model on a bacth by calculating
+        the total loss gradient and updating the model weights"""
 
         X, y = batch
 
@@ -36,7 +43,8 @@ class FaceDetection(Model):
         return {"total_loss": total_loss, "classification_loss": batch_class_loss,
                 "regression_loss": batch_localization_loss}
 
-    def test_step(self, batch):
+    def test_step(self, batch) -> dict:
+        """Test the trained face detection model on a bacth"""
 
         X, y = batch
 
