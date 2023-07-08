@@ -10,10 +10,10 @@ from facedetection.collect_data.augment_data import augment_data
 from facedetection.collect_data.rectangle_detection import display_rectangle_detection
 from facedetection.preprocess.preprocess_data import (decode_and_preprocess,
                                                       label_dataset,
-                                                      load_preprocess_data)
+                                                      load_preprocessed_data)
 from facedetection.custom_model.build_model import build_model, localization_loss
 from facedetection.custom_model.custom_model_class import FaceDetection
-import facedetection.path as path
+import config.path as path
 
 
 # Create folders and subfloders to store the data
@@ -82,10 +82,10 @@ test_labels = label_dataset(test_labels_path)
 validation_labels = label_dataset(validation_labels_path)
 
 # Load pre-processed data
-train = load_preprocess_data(train_images, train_labels, 100, 20, 10)
-test = load_preprocess_data(test_images, test_labels, 25, 10, 5)
-validation = load_preprocess_data(validation_images,
-                                  validation_labels, 25, 10, 5)
+train = load_preprocessed_data(train_images, train_labels, 1024, 8, 4)
+test = load_preprocessed_data(test_images, test_labels, 512, 8, 4)
+validation = load_preprocessed_data(validation_images,
+                                    validation_labels, 128, 8, 4)
 
 # View images and annotations
 data_samples = train.as_numpy_iterator()

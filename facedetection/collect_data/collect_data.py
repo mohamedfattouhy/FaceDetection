@@ -5,7 +5,8 @@ import uuid
 import cv2
 
 
-def collect_data(save_path, n_images):
+def collect_data(save_path: str, n_images: int) -> None:
+    """Collect images of your face with your webcam"""
 
     cap = cv2.VideoCapture(0)
 

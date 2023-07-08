@@ -17,7 +17,8 @@ augmentor = alb.Compose([alb.RandomCrop(width=450, height=450),
                         )
 
 
-def augment_data(n_aug_data, directory_names):
+def augment_data(n_aug_data: int, directory_names: str) -> None:
+    """Create new images from originals to increase image base"""
 
     for partition in directory_names:
 

@@ -10,8 +10,9 @@ vgg = VGG16(include_top=False)
 # print(vgg.summary())
 
 
-# Build instance of Neural Network
-def build_model():
+def build_model() -> Model:
+    """Create a custom neural network model from the
+    VGG16 model, for classification and regression."""
 
     input_layer = Input(shape=(120, 120, 3))
 
@@ -32,8 +33,9 @@ def build_model():
     return facetracker
 
 
-# Create Localization Loss and Classification Loss
 def localization_loss(y_true, yhat):
+    """Calculation of the loss associated
+    with the regression (box coordinates)"""
 
     delta_coord = tf.reduce_sum(tf.square(y_true[:, :2] - yhat[:, :2]))
 

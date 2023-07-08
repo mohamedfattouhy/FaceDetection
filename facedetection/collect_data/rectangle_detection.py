@@ -3,7 +3,8 @@ import json
 import cv2
 
 
-def display_rectangle_detection(image_path, label_path):
+def display_rectangle_detection(image_path: str, label_path: str) -> None:
+    """Display a rectangle to frame a face in a labeled image"""
 
     img_sample = cv2.imread(image_path)
     print()

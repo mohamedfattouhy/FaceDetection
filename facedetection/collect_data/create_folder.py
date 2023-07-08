@@ -4,6 +4,7 @@ import os
 
 
 def create_folder(dirpath_name: str, subdir_names: list) -> None:
+    """create directories and sub-directories"""
 
     dirpath = Path(os.path.join(dirpath_name))
 

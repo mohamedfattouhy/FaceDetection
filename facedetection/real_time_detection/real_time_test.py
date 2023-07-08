@@ -4,9 +4,11 @@ import numpy as np
 import tensorflow as tf
 
 
-def real_time_face_detection(model):
+def real_time_face_detection(model) -> None:
+    """Use the trained face detection model in real time with your webcam"""
 
     cap = cv2.VideoCapture(0)
+
     print()
     print("Press \'q\' to quit the session")
     print()
